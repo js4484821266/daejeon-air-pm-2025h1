@@ -6,3 +6,5 @@ down:
 
 ingest:
 	python -m src.ingest data/sample_air_quality.csv
+transform:
+	python -m src.transform
