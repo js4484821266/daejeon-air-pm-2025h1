@@ -35,13 +35,21 @@ def copy_csv(conn, csv_path: Path):
     if not csv_path.exists():
         raise FileNotFoundError(csv_path)
 
+    copy_sql = (
+        "COPY raw_pm (measured_at, station, pm10, pm25) "
+        "FROM STDIN WITH (FORMAT csv, HEADER true)"
+    )
+
     with conn.cursor() as cur:
-        with csv_path.open("r", encoding="utf-8") as f:
-            # CSV 헤더 포함, 컬럼명은 sample_air_quality.csv와 동일해야 함
-            cur.copy(
-                "COPY raw_pm (measured_at, station, pm10, pm25) FROM STDIN WITH (FORMAT csv, HEADER true)",
-                f,
-            )
+        # psycopg3 안전 모드: bytes로 chunk 단위 전송
+        with cur.copy(copy_sql) as copy:
+            with csv_path.open("rb") as f:
+                while True:
+                    chunk = f.read(8192)
+                    if not chunk:
+                        break
+                    copy.write(chunk)
+
     conn.commit()
 
 
