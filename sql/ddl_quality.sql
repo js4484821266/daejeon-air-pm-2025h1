@@ -1,0 +1,7 @@
+CREATE TABLE IF NOT EXISTS quality_log (
+  id BIGSERIAL PRIMARY KEY,
+  checked_at TIMESTAMP NOT NULL DEFAULT NOW(),
+  check_name TEXT NOT NULL,
+  passed BOOLEAN NOT NULL,
+  details TEXT
+);

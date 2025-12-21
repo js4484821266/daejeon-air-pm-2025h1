@@ -10,3 +10,5 @@ transform:
 	python -m src.transform
 dashboard:
 	streamlit run app.py
+quality:
+	python -m src.quality
