@@ -1,2 +1,4 @@
 psycopg[binary]==3.2.3
 python-dotenv==1.0.1
+streamlit==1.40.1
+matplotlib==3.9.2
