@@ -1,0 +1,60 @@
+name: ci
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  smoke-test:
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_DB: daejeon_air
+          POSTGRES_USER: daejeon
+          POSTGRES_PASSWORD: daejeon_pw
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd="pg_isready -U daejeon -d daejeon_air"
+          --health-interval=5s
+          --health-timeout=5s
+          --health-retries=20
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Create .env for tests
+        run: |
+          cat > .env << 'EOF'
+          POSTGRES_DB=daejeon_air
+          POSTGRES_USER=daejeon
+          POSTGRES_PASSWORD=daejeon_pw
+          POSTGRES_HOST=localhost
+          POSTGRES_PORT=5432
+          EOF
+
+      - name: Run ingest
+        run: |
+          python -m src.ingest data/sample_air_quality.csv
+
+      - name: Run transform
+        run: |
+          python -m src.transform
+
+      - name: Run quality checks
+        run: |
+          python -m src.quality
