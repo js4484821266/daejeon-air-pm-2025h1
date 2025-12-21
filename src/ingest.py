@@ -1,3 +1,4 @@
+import csv
 import os
 import sys
 from pathlib import Path
@@ -34,31 +35,34 @@ def ensure_schema(conn):
 def copy_csv(conn, csv_path: Path):
     if not csv_path.exists():
         raise FileNotFoundError(csv_path)
-
-    copy_sql = (
-        "COPY raw_pm (measured_at, station, pm10, pm25) "
-        "FROM STDIN WITH (FORMAT csv, HEADER true)"
-    )
+    
+    with csv_path.open('r',encoding='u8',newline='')as f:
+        reader=csv.DictReader(f)
+        rows=[
+            (r['measured_at'],r['station'],r['pm10'],r['pm25'])
+            for r in reader
+        ]
 
     with conn.cursor() as cur:
-        # psycopg3 안전 모드: bytes로 chunk 단위 전송
-        with cur.copy(copy_sql) as copy:
-            with csv_path.open("rb") as f:
-                while True:
-                    chunk = f.read(8192)
-                    if not chunk:
-                        break
-                    copy.write(chunk)
+        cur.executemany(
+            """
+            INSERT INTO raw_pm (measured_at, station, pm10, pm25)
+            VALUES (%s, %s, %s, %s)
+            """,
+            rows
+        )
 
     conn.commit()
-
-
 def main():
     csv_path = Path(sys.argv[1]) if len(sys.argv) >= 2 else (ROOT / "data" / "sample_air_quality.csv")
 
     with get_conn() as conn:
         ensure_schema(conn)
         copy_csv(conn, csv_path)
+        # debug
+        with conn.cursor() as cur:
+            cur.execute("select count(*) from raw_pm;")
+            print('[COUNT]',cur.fetchone()[0])
 
     print(f"[OK] loaded: {csv_path}")
 
