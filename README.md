@@ -13,6 +13,9 @@ Extract, transform, load, and visualize the data.
 
 - `2025년 대전광역시 상반기 미세먼지 현황.pdf`: The report.
 
+## ci
+![ci](https://github.com/js4484821266/daejeon-air-pm-2025h1/actions/workflows/ci.yml/badge.svg)
+
 ## Source
 
 https://www.data.go.kr/data/15073477/fileData.do
