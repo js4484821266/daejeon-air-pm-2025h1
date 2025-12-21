@@ -3,6 +3,8 @@
 
 An ETL repository for the report of the particulate matter (PM) level in Daejeon in Half 1 in 2025.
 
+(in progress)
+
 ## Goal
 
 Extract, transform, load, and visualize the data.
