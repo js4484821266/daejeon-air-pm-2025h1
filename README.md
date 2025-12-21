@@ -7,6 +7,10 @@ An ETL repository for the report of the particulate matter (PM) level in Daejeon
 
 Extract, transform, load, and visualize the data.
 
+## File description
+
+- `2025년 대전광역시 상반기 미세먼지 현황.pdf`: The report.
+
 ## Source
 
 https://www.data.go.kr/data/15073477/fileData.do
