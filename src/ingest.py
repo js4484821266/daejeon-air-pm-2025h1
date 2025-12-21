@@ -35,26 +35,32 @@ def ensure_schema(conn):
 def copy_csv(conn, csv_path: Path):
     if not csv_path.exists():
         raise FileNotFoundError(csv_path)
-    
-    with csv_path.open('r',encoding='u8',newline='')as f:
-        reader=csv.DictReader(f)
-        rows=[
-            (r['measured_at'],r['station'],r['pm10'],r['pm25'])
-            for r in reader
-        ]
+
+    with csv_path.open("r", encoding="u8", newline="") as f:
+        reader = csv.DictReader(f)
+        rows = [(r["measured_at"], r["station"], r["pm10"], r["pm25"]) for r in reader]
 
     with conn.cursor() as cur:
         cur.executemany(
             """
-            INSERT INTO raw_pm (measured_at, station, pm10, pm25)
-            VALUES (%s, %s, %s, %s)
+        INSERT INTO raw_pm (measured_at, station, pm10, pm25)
+        VALUES (%s, %s, %s, %s)
+        ON CONFLICT (measured_at, station) DO UPDATE SET
+          pm10 = EXCLUDED.pm10,
+          pm25 = EXCLUDED.pm25
             """,
-            rows
+            rows,
         )
 
     conn.commit()
+
+
 def main():
-    csv_path = Path(sys.argv[1]) if len(sys.argv) >= 2 else (ROOT / "data" / "sample_air_quality.csv")
+    csv_path = (
+        Path(sys.argv[1])
+        if len(sys.argv) >= 2
+        else (ROOT / "data" / "sample_air_quality.csv")
+    )
 
     with get_conn() as conn:
         ensure_schema(conn)
@@ -62,7 +68,7 @@ def main():
         # debug
         with conn.cursor() as cur:
             cur.execute("select count(*) from raw_pm;")
-            print('[COUNT]',cur.fetchone()[0])
+            print("[COUNT]", cur.fetchone()[0])
 
     print(f"[OK] loaded: {csv_path}")
 
