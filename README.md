@@ -5,6 +5,20 @@ A repository for an end-to-end data engineering mini-project analyzing particula
 
 Status: In progress.
 
+## Quickstart (Windows PowerShell)
+
+```powershell
+Copy-Item .env.example .env
+py -m venv .venv
+.\.venv\Scripts\Activate.ps1
+py -m pip install -r requirements.txt
+docker compose up -d
+py -m src.ingest data\sample_air_quality.csv
+py -m src.transform
+py -m src.quality
+streamlit run app.py
+```
+
 ## Goal
 
 Extract, transform, load, and visualize the PM data.
