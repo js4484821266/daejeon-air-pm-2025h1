@@ -9,6 +9,10 @@ Pipeline overview:
 
 Status: In progress.
 
+## Demo
+
+![Demo screenshot](assets/demo.png)
+
 ## Goal
 
 Extract, transform, load, and visualize the PM data.
