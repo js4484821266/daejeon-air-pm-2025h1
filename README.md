@@ -3,7 +3,11 @@
 
 A repository for an end-to-end data engineering mini-project analyzing particulate matter (PM) levels in Daejeon during the first half of 2025.
 
-Status: In progress.
+Status: v0.1 MVP released (2025-12-22).
+
+What works: ingest → raw → mart → quality_log → dashboard (reproducible via Quickstart).
+
+Next: add 5–8 quality rules doc + 3 unit tests + CI badge detail.
 
 ## Quickstart (Windows PowerShell)
 
