@@ -3,7 +3,7 @@
 
 A repository for an end-to-end data engineering mini-project analyzing particulate matter (PM) levels in Daejeon during the first half of 2025.
 
-Status: In progress.
+Status: MVP.
 
 ## Quickstart (Windows PowerShell)
 
