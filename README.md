@@ -9,12 +9,12 @@ What works: ingest → raw → mart → quality_log → dashboard (reproducible 
 
 Next: add 5–8 quality rules doc + 3 unit tests + CI badge detail.
 
-## Quickstart (Windows PowerShell)
+## Quickstart (Windows CMD)
 
-```powershell
-Copy-Item .env.example .env
+```cmd
+copy .env.example .env
 py -m venv .venv
-.\.venv\Scripts\Activate.ps1
+.venv\Scripts\activate.bat
 py -m pip install -r requirements.txt
 docker compose up -d
 py -m src.ingest data\sample_air_quality.csv
