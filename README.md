@@ -7,7 +7,7 @@ Status: v0.1 MVP released (2025-12-22).
 
 What works: ingest → raw → mart → quality_log → dashboard (reproducible via Quickstart).
 
-Next: add 5–8 quality rules doc + 3 unit tests + CI badge detail.
+Next: document 6–10 quality rules + add 3 unit tests + add data dictionary + add troubleshooting notes.
 
 ## Quickstart (Windows CMD)
 
