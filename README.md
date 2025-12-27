@@ -53,6 +53,8 @@ https://www.data.go.kr/data/15073477/fileData.do
 
 ## Demo
 
+Demo with the sample data:
+
 ![Demo screenshot](assets/demo.png)
 
 ## File description
