@@ -7,7 +7,13 @@ Status: v0.1 MVP released (2025-12-22).
 
 What works: ingest → raw → mart → quality_log → dashboard (reproducible via Quickstart).
 
-Next: document 6–10 quality rules + add 3 unit tests + add data dictionary + add troubleshooting notes.
+Next: add 5–8 quality rules doc + 3 unit tests.
+
+## Prereqs
+
+- Python 3.11+
+- Docker Desktop running
+- GitHub Actions (provided CI uses PostgreSQL service)
 
 ## Quickstart (Windows CMD)
 
@@ -18,6 +24,20 @@ py -m venv .venv
 py -m pip install -r requirements.txt
 docker compose up -d
 py -m src.ingest data\sample_air_quality.csv
+py -m src.transform
+py -m src.quality
+streamlit run app.py
+```
+
+Windows PowerShell variant:
+
+```powershell
+Copy-Item .env.example .env
+py -m venv .venv
+.venv\Scripts\Activate.ps1
+py -m pip install -r requirements.txt
+docker compose up -d
+py -m src.ingest data/sample_air_quality.csv
 py -m src.transform
 py -m src.quality
 streamlit run app.py
@@ -44,6 +64,8 @@ flowchart LR
 ## Pipeline
 
 **Ingest (CSV/API) → PostgreSQL (raw) → Transform (mart) → Data quality checks → Streamlit dashboard**
+
+`src.ingest` and `src.quality` auto-create the required tables; no manual SQL needed.
 
 ## Source
 
