@@ -81,4 +81,4 @@ Demo with the sample data:
 
 ## File description
 
-- `2025년 대전광역시 상반기 미세먼지 현황.pdf`: Official report on particulate matter (PM) levels in Daejeon during the first half of 2025.
+- `data/2025년 대전광역시 상반기 미세먼지 현황.pdf`: Official report on particulate matter (PM) levels in Daejeon during the first half of 2025.
